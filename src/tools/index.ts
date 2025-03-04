@@ -6,7 +6,7 @@ import { createNativeTools } from './native/langchain';
  * @param monadKit - The MonadAgentKit instance
  * @returns An array of LangChain tools
  */
-export function createAllDappTools(monadKit: MonadAgentKit) {
+export function createAllTools(monadKit: MonadAgentKit) {
     return [
         ...createNativeTools(monadKit),
         // Add more dapp tools here as they are implemented

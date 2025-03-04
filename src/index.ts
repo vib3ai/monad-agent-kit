@@ -1,9 +1,9 @@
 import { MonadAgentKit } from './agent';
-import { createAllDappTools } from './tools';
+import { createAllTools } from './tools';
 import { monad } from './constants';
 
 // Export the main classes and functions
-export { MonadAgentKit, createAllDappTools, monad };
+export { MonadAgentKit, createAllTools, monad };
 
 // Export types that users might need
 export * from './types';
@@ -13,4 +13,4 @@ export { ACTIONS } from './actions';
 export * from './utils/actionExecutor';
 
 // For backward compatibility
-export const createMonadTools = createAllDappTools;
+export const createMonadTools = createAllTools;

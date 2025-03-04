@@ -1,4 +1,4 @@
-import { MonadAgentKit, createAllDappTools } from '../src';
+import { MonadAgentKit, createAllTools } from '../src';
 import { Tool } from 'langchain/tools';
 import 'dotenv/config';
 
@@ -26,7 +26,7 @@ async function main() {
         console.log('Wallet balance:', balance, 'ETH');
 
         // Create LangChain tools
-        const tools = createAllDappTools(monadKit);
+        const tools = createAllTools(monadKit);
         console.log('Available tools:', tools.map(tool => tool.name));
 
         // Example of using the balance tool directly
