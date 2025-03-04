@@ -1,5 +1,5 @@
 import { MonadAgentKit } from './agent';
-import { createAllDappTools } from './dapps';
+import { createAllDappTools } from './tools';
 import { monad } from './constants';
 
 // Export the main classes and functions

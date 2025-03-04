@@ -1,4 +1,4 @@
-import { NATIVE_ACTIONS } from '../dapps/native/actions';
+import { NATIVE_ACTIONS } from '../tools/native/actions';
 
 // Combine all dapp actions
 export const ACTIONS = {
