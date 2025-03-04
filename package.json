@@ -1,0 +1,30 @@
+{
+  "name": "monad-agent-kit",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/0xwckd/monad-agent-kit",
+  "author": "0xwckd <dn.minhx@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx test/index.ts",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
+  },
+  "dependencies": {
+    "@langchain/core": "^0.3.27",
+    "langchain": "^0.3.9",
+    "viem": "^2.2.22",
+    "zod": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "dotenv": "^16.4.7",
+    "eslint": "^8.56.0",
+    "prettier": "^3.4.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.8.2"
+  }
+}
