@@ -8,6 +8,7 @@ An open-source toolkit for connecting AI agents to Monad and other EVM protocols
 - Transfer native tokens (ETH)
 - LangChain integration for AI agents
 - Modular dapp-based architecture for easy extension
+- Interactive chat interface with AI agent
 
 ## Installation
 
@@ -18,7 +19,7 @@ yarn add monad-agent-kit
 ## Quick Start
 
 ```typescript
-import { MonadAgentKit, createAllDappTools } from 'monad-agent-kit';
+import { MonadAgentKit, createAllTools } from 'monad-agent-kit';
 
 // Initialize with private key
 const privateKey = '0x' + 'your-private-key';
@@ -33,21 +34,44 @@ const txHash = await agent.transfer('0x1234567890123456789012345678901234567890'
 console.log('Transaction hash:', txHash);
 
 // Create LangChain tools
-const tools = createAllDappTools(agent);
+const tools = createAllTools(agent);
 ```
+
+## Chat Interface
+
+The Monad Agent Kit includes an interactive chat interface that allows you to interact with an AI agent that has access to Monad blockchain tools.
+
+To use the chat interface:
+
+1. Set up your environment variables in a `.env` file:
+   ```
+   WALLET_PRIVATE_KEY=your_private_key_here
+   MONAD_RPC_URL=https://rpc.monad.xyz/
+   OPENAI_API_KEY=your_openai_api_key_here
+   ```
+
+2. Run the chat interface:
+   ```bash
+   yarn chat
+   ```
+
+3. Choose between chat mode and autonomous mode:
+   - **Chat mode**: Interact directly with the AI agent
+   - **Autonomous mode**: Let the agent run autonomously at regular intervals
 
 ## LangChain Integration
 
 The Monad Agent Kit provides ready-to-use LangChain tools for AI agents:
 
 ```typescript
-import { MonadAgentKit, createAllDappTools } from 'monad-agent-kit';
-import { ChatOpenAI } from 'langchain/chat_models/openai';
-import { AgentExecutor, createReactAgent } from 'langchain/agents';
+import { MonadAgentKit, createAllTools } from 'monad-agent-kit';
+import { ChatOpenAI } from "@langchain/openai";
+import { AgentExecutor, createOpenAIFunctionsAgent } from "langchain/agents";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
 
 // Initialize the agent
 const agent = new MonadAgentKit(privateKey);
-const tools = createAllDappTools(agent);
+const tools = createAllTools(agent);
 
 // Create the LLM
 const llm = new ChatOpenAI({
@@ -55,19 +79,31 @@ const llm = new ChatOpenAI({
   modelName: 'gpt-4',
 });
 
+// Create the system prompt
+const systemPrompt = `You are a helpful assistant that can interact with the Monad blockchain.
+You have access to tools that allow you to check balances and transfer ETH.
+Always be helpful, concise, and clear in your responses.`;
+
+// Create the prompt template
+const prompt = ChatPromptTemplate.fromMessages([
+  ["system", systemPrompt],
+  ["human", "{input}"],
+]);
+
 // Create the agent
-const reactAgent = createReactAgent({
+const openAIAgent = createOpenAIFunctionsAgent({
   llm,
   tools,
+  prompt,
 });
 
-const agentExecutor = AgentExecutor.fromAgentAndTools({
-  agent: reactAgent,
+const executor = AgentExecutor.fromAgentAndTools({
+  agent: openAIAgent,
   tools,
 });
 
 // Run the agent
-const result = await agentExecutor.invoke({
+const result = await executor.invoke({
   input: 'What is my wallet balance?',
 });
 
@@ -92,17 +128,18 @@ The project is organized by DApp, making it easy to add support for new protocol
 ```
 src/
 ├── agent/           # Core wallet functionality
-├── dapps/           # DApp-specific implementations
+├── tools/           # Tool implementations
 │   ├── native/      # Native ETH operations
 │   │   ├── tools/   # Low-level tools
 │   │   ├── actions/ # Action definitions
 │   │   └── langchain/ # LangChain tool wrappers
 │   └── ... (other dapps)
 ├── actions/         # Combined actions from all dapps
+├── bin/             # CLI tools and chat interface
 └── utils/           # Shared utilities
 ```
 
-To add a new DApp, create a new folder under `src/dapps/` with the same structure.
+To add a new DApp, create a new folder under `src/tools/` with the same structure.
 
 ## Development
 
@@ -110,6 +147,7 @@ To add a new DApp, create a new folder under `src/dapps/` with the same structur
 2. Install dependencies: `yarn install`
 3. Create a `.env` file with your private key (see `.env.example`)
 4. Run the test: `yarn test`
+5. Try the chat interface: `yarn chat`
 
 ## Contributing
 
