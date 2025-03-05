@@ -15,6 +15,7 @@ function validateEnvironment(): void {
         "OPENAI_API_KEY",
         "MONAD_RPC_URL",
         "WALLET_PRIVATE_KEY",
+        "ANTHROPIC_API_KEY",
     ];
 
     requiredVars.forEach((varName) => {

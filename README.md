@@ -48,6 +48,7 @@ To use the chat interface:
    WALLET_PRIVATE_KEY=your_private_key_here
    MONAD_RPC_URL=https://rpc.monad.xyz/
    OPENAI_API_KEY=your_openai_api_key_here
+   ANTHROPIC_API_KEY=your_anthropic_api_key_here
    ```
 
 2. Run the chat interface:
