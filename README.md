@@ -1,6 +1,6 @@
 # Monad Agent Kit
 
-An open-source toolkit for connecting AI agents to Monad and other EVM protocols. Inspired by [Solana Agent Kit](https://github.com/sendaifun/solana-agent-kit) and [EVM Agent Kit](https://github.com/hiero-ai/evm-agent-kit).
+An open-source toolkit for connecting AI agents to Monad and other EVM protocols. Inspired by [Solana Agent Kit](https://github.com/sendaifun/solana-agent-kit).
 
 ## Features
 
@@ -67,6 +67,7 @@ The Monad Agent Kit provides ready-to-use LangChain tools for AI agents:
 ```typescript
 import { MonadAgentKit, createAllTools } from 'monad-agent-kit';
 import { ChatOpenAI } from "@langchain/openai";
+import { ChatAnthropic } from "@langchain/anthropic";
 import { AgentExecutor, createOpenAIFunctionsAgent } from "langchain/agents";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 
@@ -75,7 +76,7 @@ const agent = new MonadAgentKit(privateKey);
 const tools = createAllTools(agent);
 
 // Create the LLM
-const llm = new ChatOpenAI({
+const llm = new ChatOpenAI({ // or new ChatAnthropic({
   temperature: 0,
   modelName: 'gpt-4',
 });
