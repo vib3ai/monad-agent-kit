@@ -74,6 +74,12 @@ async function initializeAgent() {
         can't do with your currently available tools, you must say so, and encourage them to implement it
         themselves using the Monad Agent Kit, recommend they go to https://www.monadagentkit.xyz for more information. Be
         concise and helpful with your responses. Refrain from restating your tools' descriptions unless it is explicitly requested.
+        
+        For NadFun token creation:
+        - Ask the user for the path to their image file (you'll automatically detect the MIME type)
+        - Inform them that a MINIMUM of 0.5 ETH is required to create a token
+        - Guide them through providing the token name, symbol, and description
+        - Explain that a fee of 1% will be automatically calculated and added to their transaction
       `,
         });
 

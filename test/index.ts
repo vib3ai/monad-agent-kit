@@ -1,44 +1,45 @@
-import { MonadAgentKit, createAllTools } from '../src';
-import { Tool } from 'langchain/tools';
+import { testNativeApp } from './apps/native';
+import { testNadfunApp } from './apps/nadfun';
 import 'dotenv/config';
 
-async function main() {
-    // Load private key from environment variables
-    let privateKey = process.env.WALLET_PRIVATE_KEY;
+/**
+ * Run all tests or specific app tests based on command line arguments
+ */
+async function runTests() {
+    // Get command line arguments
+    const args = process.argv.slice(2);
 
-    if (!privateKey) {
-        console.error('WALLET_PRIVATE_KEY is required in .env file');
-        process.exit(1);
+    // If no specific app is specified, run all tests
+    if (args.length === 0) {
+        console.log('Running all tests...\n');
+        await testNativeApp();
+        console.log('\n');
+        await testNadfunApp();
+        console.log('\nAll tests completed!');
+        return;
     }
 
-    // Add 0x prefix if not present
-    if (!privateKey.startsWith('0x')) {
-        privateKey = `0x${privateKey}`;
+    // Run tests for specific apps
+    for (const app of args) {
+        switch (app.toLowerCase()) {
+            case 'native':
+                await testNativeApp();
+                break;
+            case 'nadfun':
+                await testNadfunApp();
+                break;
+            default:
+                console.error(`Unknown app: ${app}`);
+                console.log('Available apps: native, nadfun');
+                process.exit(1);
+        }
     }
 
-    try {
-        // Initialize the MonadAgentKit
-        const monadKit = new MonadAgentKit(privateKey);
-        console.log('Wallet address:', monadKit.getWalletAddress());
-
-        // Check balance
-        const balance = await monadKit.getBalance();
-        console.log('Wallet balance:', balance, 'ETH');
-
-        // Create LangChain tools
-        const tools = createAllTools(monadKit);
-        console.log('Available tools:', tools.map(tool => tool.name));
-
-        // Example of using the balance tool directly
-        const balanceTool = tools[0] as Tool;
-        const balanceResult = await balanceTool.call('{}');
-        console.log('Balance tool result:', balanceResult);
-
-        // Note: We're not testing the transfer tool here as it would actually send tokens
-        console.log('Test completed successfully!');
-    } catch (error) {
-        console.error('Error:', error);
-    }
+    console.log('\nSpecified tests completed!');
 }
 
-main();
+// Run the tests
+runTests().catch(error => {
+    console.error('Error running tests:', error);
+    process.exit(1);
+});

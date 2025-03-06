@@ -9,6 +9,9 @@
   "scripts": {
     "build": "tsc",
     "test": "tsx test/index.ts",
+    "test:native": "tsx test/index.ts native",
+    "test:nadfun": "tsx test/index.ts nadfun",
+    "example:nadfun-create": "tsx examples/nadfun/create.ts",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -22,12 +25,16 @@
     "@langchain/core": "^0.3.27",
     "@langchain/langgraph": "^0.2.52",
     "@langchain/openai": "^0.4.4",
+    "@types/mime-types": "^2.1.4",
     "langchain": "^0.3.9",
+    "mime-types": "^2.1.35",
+    "uuid": "^11.1.0",
     "viem": "^2.2.22",
     "zod": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "@types/uuid": "^10.0.0",
     "dotenv": "^16.4.7",
     "eslint": "^8.56.0",
     "prettier": "^3.4.2",

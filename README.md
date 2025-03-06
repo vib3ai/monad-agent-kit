@@ -130,7 +130,7 @@ The project is organized by DApp, making it easy to add support for new protocol
 ```
 src/
 ├── agent/           # Core wallet functionality
-├── tools/           # Tool implementations
+├── apps/            # DApp implementations
 │   ├── native/      # Native ETH operations
 │   │   ├── tools/   # Low-level tools
 │   │   ├── actions/ # Action definitions
@@ -141,7 +141,7 @@ src/
 └── utils/           # Shared utilities
 ```
 
-To add a new DApp, create a new folder under `src/tools/` with the same structure.
+To add a new DApp, create a new folder under `src/apps/` with the same structure.
 
 ## Development
 

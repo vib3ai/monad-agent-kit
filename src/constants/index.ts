@@ -2,7 +2,7 @@ import { defineChain } from 'viem';
 
 // Define Monad chain
 export const monad = defineChain({
-    id: 1337,
+    id: 10143,
     name: 'Monad',
     nativeCurrency: {
         decimals: 18,

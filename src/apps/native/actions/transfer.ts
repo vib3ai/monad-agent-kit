@@ -6,10 +6,8 @@ import { transfer } from '../tools';
 const transferAction: Action = {
     name: 'NATIVE_TRANSFER_ACTION',
     similes: [
-        'transfer',
-        'send',
-        'send tokens',
-        'transfer tokens',
+        'transfer ETH',
+        'send ETH',
         'send ETH',
         'transfer ETH',
     ],
