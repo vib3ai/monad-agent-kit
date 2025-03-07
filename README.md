@@ -4,11 +4,10 @@ An open-source toolkit for connecting AI agents to Monad and other EVM protocols
 
 ## Features
 
-- Check wallet balances
-- Transfer native tokens (ETH)
+- Tools for interacting with Monad apps
 - LangChain integration for AI agents
 - Modular dapp-based architecture for easy extension
-- Interactive chat interface with AI agent
+- A simple CLI interface to chat with the agent
 
 ## Installation
 
