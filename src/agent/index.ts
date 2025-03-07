@@ -5,8 +5,6 @@ import {
     Chain,
     Address,
     Account,
-    parseEther,
-    formatEther,
     WalletClient,
     PublicClient,
     Transport,
@@ -49,32 +47,5 @@ export class MonadAgentKit {
      */
     getWalletAddress(): string {
         return this.walletAccount.address;
-    }
-
-    /**
-     * Get the balance of a wallet
-     * @param address - The address to check (defaults to the wallet address)
-     * @returns The balance in ETH
-     */
-    async getBalance(address?: string): Promise<string> {
-        const targetAddress = (address || this.walletAccount.address) as Address;
-        const rawBalance = await this.publicClient.getBalance({
-            address: targetAddress,
-        });
-        return formatEther(rawBalance);
-    }
-
-    /**
-     * Transfer native tokens to another address
-     * @param to - The recipient address
-     * @param amount - The amount to transfer in ETH
-     * @returns The transaction hash
-     */
-    async transfer(to: string, amount: string): Promise<string> {
-        const recipient = to as Address;
-        return this.walletClient.sendTransaction({
-            to: recipient,
-            value: parseEther(amount),
-        });
     }
 } 

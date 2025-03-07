@@ -1,5 +1,6 @@
 import { Tool } from 'langchain/tools';
 import { MonadAgentKit } from '../../../agent';
+import { transfer } from '../tools';
 
 export class NativeTransferTool extends Tool {
     name = 'native_transfer';
@@ -25,16 +26,9 @@ export class NativeTransferTool extends Tool {
                 throw new Error('Amount is required');
             }
 
-            const txHash = await this.monadKit.transfer(params.to, params.amount);
-            const from = this.monadKit.getWalletAddress();
+            const result = await transfer(this.monadKit, params.to, params.amount);
 
-            return JSON.stringify({
-                status: 'success',
-                txHash,
-                from,
-                to: params.to,
-                amount: params.amount,
-            });
+            return JSON.stringify(result);
         } catch (error: any) {
             return JSON.stringify({
                 status: 'error',

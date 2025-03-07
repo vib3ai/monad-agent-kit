@@ -1,5 +1,6 @@
 import { MonadAgentKit } from '../../../src';
 import { createNativeTools } from '../../../src/apps/native/langchain';
+import { get_balance } from '../../../src/apps/native/tools';
 import 'dotenv/config';
 
 /**
@@ -26,16 +27,16 @@ async function testNativeApp() {
         const monadKit = new MonadAgentKit(privateKey);
         console.log('Wallet address:', monadKit.getWalletAddress());
 
-        // Check balance
-        const balance = await monadKit.getBalance();
-        console.log('Wallet balance:', balance, 'ETH');
+        // Check balance using the native tool
+        const balanceResult = await get_balance(monadKit);
+        console.log('Wallet balance:', balanceResult.balance, 'ETH');
 
         // Create LangChain tools for native app
         const tools = createNativeTools(monadKit);
         console.log('Available native tools:', tools.map(tool => tool.name));
 
         // Test balance tool
-        const balanceTool = tools.find(tool => tool.name === 'monad_balance');
+        const balanceTool = tools.find(tool => tool.name === 'native_balance');
         if (balanceTool) {
             const balanceResult = await balanceTool.call('{}');
             console.log('Balance tool result:', balanceResult);

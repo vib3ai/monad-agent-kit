@@ -43,14 +43,8 @@ const balanceAction: Action = {
         address: z.string().optional(),
     }),
     handler: async (agent: MonadAgentKit, input: Record<string, any>) => {
-        const balance = await get_balance(agent, input.address);
-        const address = input.address || agent.getWalletAddress();
-
-        return {
-            status: 'success',
-            balance,
-            address,
-        };
+        // The get_balance tool now returns a BalanceResponse object
+        return await get_balance(agent, input.address);
     },
 };
 

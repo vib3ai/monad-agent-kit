@@ -22,6 +22,7 @@ const transferAction: Action = {
                 output: {
                     status: 'success',
                     txHash: '0xabcdef...',
+                    from: '0x...',
                     to: '0x1234567890123456789012345678901234567890',
                     amount: '1.5',
                 },
@@ -35,14 +36,8 @@ const transferAction: Action = {
     }),
     handler: async (agent: MonadAgentKit, input: Record<string, any>) => {
         const { to, amount } = input;
-        const txHash = await transfer(agent, to, amount);
-
-        return {
-            status: 'success',
-            txHash,
-            to,
-            amount,
-        };
+        // The transfer tool now returns a TransferResponse object
+        return await transfer(agent, to, amount);
     },
 };
 
