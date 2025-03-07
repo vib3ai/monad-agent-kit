@@ -19,18 +19,23 @@ yarn add monad-agent-kit
 
 ```typescript
 import { MonadAgentKit, createAllTools } from 'monad-agent-kit';
+import { get_balance, transfer } from 'monad-agent-kit/apps/native/tools';
 
 // Initialize with private key
 const privateKey = '0x' + 'your-private-key';
 const agent = new MonadAgentKit(privateKey);
 
-// Check balance
-const balance = await agent.getBalance();
-console.log('Wallet balance:', balance, 'ETH');
+// Check wallet address
+const address = agent.getWalletAddress();
+console.log('Wallet address:', address);
 
-// Transfer tokens
-const txHash = await agent.transfer('0x1234567890123456789012345678901234567890', '1.5');
-console.log('Transaction hash:', txHash);
+// Check balance using native tools
+const balanceResult = await get_balance(agent);
+console.log('Wallet balance:', balanceResult.balance, 'ETH');
+
+// Transfer tokens using native tools
+const transferResult = await transfer(agent, '0x1234567890123456789012345678901234567890', '1.5');
+console.log('Transaction hash:', transferResult.txHash);
 
 // Create LangChain tools
 const tools = createAllTools(agent);
@@ -116,6 +121,7 @@ console.log(result.output);
 Currently, the following DApps are supported:
 
 - **Native**: Basic ETH operations (balance checking, transfers)
+- **NadFun**: Create tokens with bonding curves and metadata
 
 Coming soon:
 - Uniswap
@@ -131,6 +137,10 @@ src/
 ├── agent/           # Core wallet functionality
 ├── apps/            # DApp implementations
 │   ├── native/      # Native ETH operations
+│   │   ├── tools/   # Low-level tools
+│   │   ├── actions/ # Action definitions
+│   │   └── langchain/ # LangChain tool wrappers
+│   ├── nadfun/      # NadFun protocol
 │   │   ├── tools/   # Low-level tools
 │   │   ├── actions/ # Action definitions
 │   │   └── langchain/ # LangChain tool wrappers
