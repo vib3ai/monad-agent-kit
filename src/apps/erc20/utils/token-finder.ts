@@ -84,6 +84,5 @@ export function getSupportedTokens(): Array<{ name: string, address: string }> {
     return [
         { name: 'USDT (Tether)', address: ERC20_CONSTANTS.TOKENS.USDT },
         { name: 'USDC (USD Coin)', address: ERC20_CONSTANTS.TOKENS.USDC },
-        { name: 'STIP (Monad Protocol IP)', address: ERC20_CONSTANTS.TOKENS.STIP }
     ];
 } 
