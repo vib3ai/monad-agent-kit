@@ -124,6 +124,7 @@ Currently, the following DApps are supported:
 - **ERC20**: ERC20 operations
 - **NadFun**: Create tokens with bonding curves and metadata
 - **Kuru Exchange**: Quote price, swap tokens
+- **SHMonad (FastLane)**: Stake, unstake MON
 
 Coming soon:
 - Uniswap
