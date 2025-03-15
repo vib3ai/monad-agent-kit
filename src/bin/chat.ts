@@ -8,6 +8,14 @@ import * as fs from "fs";
 import * as readline from "readline";
 dotenv.config();
 
+// Enable debug logging
+const DEBUG = false;
+function debugLog(...args: any[]) {
+    if (DEBUG) {
+        console.log('[DEBUG]', ...args);
+    }
+}
+
 function validateEnvironment(): void {
     const missingVars: string[] = [];
     const requiredVars = [
@@ -38,6 +46,7 @@ const WALLET_DATA_FILE = "wallet_data.txt";
 
 async function initializeAgent() {
     try {
+        debugLog('Initializing agent...');
         const llm = new ChatAnthropic({
             modelName: "claude-3-5-sonnet-20240620",
             temperature: 0.7,
@@ -53,15 +62,24 @@ async function initializeAgent() {
             }
         }
 
+        debugLog('Creating MonadAgentKit instance...');
         const monadAgent = new MonadAgentKit(
             process.env.WALLET_PRIVATE_KEY!,
             monad,
             process.env.MONAD_RPC_URL!,
         );
+        debugLog('Wallet address:', monadAgent.getWalletAddress());
 
+        debugLog('Creating tools...');
         const tools = createMonadTools(monadAgent);
+        debugLog(`Created ${tools.length} tools`);
+
+        // Log available tool names
+        debugLog('Available tools:', tools.map(tool => tool.name));
+
         const config = { configurable: { thread_id: "Monad Agent Kit!" } };
 
+        debugLog('Creating React agent...');
         const agent = createReactAgent({
             llm,
             tools,
@@ -74,6 +92,9 @@ async function initializeAgent() {
         themselves using the Monad Agent Kit, recommend they go to https://www.monadagentkit.xyz for more information. Be
         concise and helpful with your responses. Refrain from restating your tools' descriptions unless it is explicitly requested.
         
+        IMPORTANT: When a tool call fails with an error, DO NOT retry the operation with different parameters. 
+        Instead, report the error to the user and ask them if they want to try again with different parameters.
+        
         For NadFun token creation:
         - Ask the user for the path to their image file (you'll automatically detect the MIME type)
         - Inform them that a MINIMUM of 0.5 ETH is required to create a token
@@ -81,6 +102,7 @@ async function initializeAgent() {
         - Explain that a fee of 1% will be automatically calculated and added to their transaction
       `,
         });
+        debugLog('Agent created successfully');
 
         if (walletDataStr) {
             fs.writeFileSync(WALLET_DATA_FILE, walletDataStr);
@@ -113,16 +135,45 @@ async function runSimpleChatMode(agent: any, config: any) {
             }
 
             console.log("Processing...");
+            debugLog('Processing user input:', userInput);
+
+            // Start timing the response
+            const startTime = Date.now();
 
             // Collect all chunks to find the final response
             const chunks = [];
+            debugLog('Starting agent stream...');
             const stream = await agent.stream(
                 { messages: [new HumanMessage(userInput)] },
                 config,
             );
 
+            let chunkCount = 0;
             for await (const chunk of stream) {
+                chunkCount++;
                 chunks.push(chunk);
+
+                // Log every 5th chunk to avoid too much output
+                if (chunkCount % 5 === 0) {
+                    debugLog(`Received ${chunkCount} chunks so far...`);
+                }
+
+                // Log tool calls
+                if (chunk.actions && chunk.actions.length > 0) {
+                    for (const action of chunk.actions) {
+                        debugLog('Tool call:', action.tool, 'with args:', action.toolInput);
+                    }
+                }
+
+                // Log tool outputs
+                if (chunk.observations && chunk.observations.length > 0) {
+                    for (const observation of chunk.observations) {
+                        debugLog('Tool output for', observation.action.tool, ':',
+                            typeof observation.result === 'string' && observation.result.length > 100
+                                ? observation.result.substring(0, 100) + '...'
+                                : observation.result);
+                    }
+                }
             }
 
             // The last chunk with 'agent' property contains the final response
@@ -134,11 +185,17 @@ async function runSimpleChatMode(agent: any, config: any) {
                 }
             }
 
+            // Log timing information
+            const endTime = Date.now();
+            debugLog(`Response generated in ${(endTime - startTime) / 1000} seconds`);
+            debugLog(`Processed ${chunkCount} chunks total`);
+
             // Print only the final response
             console.log("\nResponse:");
             console.log(finalResponse);
         }
     } catch (error) {
+        debugLog('Error in chat loop:', error);
         if (error instanceof Error) {
             console.error("Error:", error.message);
         }
@@ -154,6 +211,7 @@ async function main() {
         const { agent, config } = await initializeAgent();
         await runSimpleChatMode(agent, config);
     } catch (error) {
+        debugLog('Fatal error in main:', error);
         if (error instanceof Error) {
             console.error("Error:", error.message);
         }

@@ -23,7 +23,7 @@ export class NativeBalanceTool extends Tool {
         } catch (error: any) {
             return JSON.stringify({
                 status: 'error',
-                message: error.message,
+                message: error.message + '. DO NOT retry automatically - please report this error to the user.',
                 code: error.code || 'UNKNOWN_ERROR',
             });
         }

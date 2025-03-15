@@ -54,7 +54,11 @@ export async function transferToken(
     tokenAddress: string,
     to: string,
     amount: string
-): Promise<string> {
+): Promise<{
+    transactionHash: string;
+    status: string;
+    message: string;
+}> {
     try {
         // Get the token decimals
         const decimals = await agent.publicClient.readContract({
@@ -78,12 +82,12 @@ export async function transferToken(
         // Send the transaction
         const txHash = await agent.walletClient.writeContract(request);
 
-        // Wait for the transaction to be mined
-        await agent.publicClient.waitForTransactionReceipt({
-            hash: txHash
-        });
-
-        return txHash;
+        // Return immediately without waiting for the transaction to be mined
+        return {
+            transactionHash: txHash,
+            status: 'pending',
+            message: 'Transaction submitted successfully. The token transfer is now pending on the blockchain.'
+        };
     } catch (error: any) {
         console.error('Error transferring tokens:', error);
         throw new Error(`Failed to transfer tokens: ${error.message}`);
@@ -103,7 +107,11 @@ export async function approveToken(
     tokenAddress: string,
     spender: string,
     amount: string
-): Promise<string> {
+): Promise<{
+    transactionHash: string;
+    status: string;
+    message: string;
+}> {
     try {
         // Get the token decimals
         const decimals = await agent.publicClient.readContract({
@@ -127,12 +135,12 @@ export async function approveToken(
         // Send the transaction
         const txHash = await agent.walletClient.writeContract(request);
 
-        // Wait for the transaction to be mined
-        await agent.publicClient.waitForTransactionReceipt({
-            hash: txHash
-        });
-
-        return txHash;
+        // Return immediately without waiting for the transaction to be mined
+        return {
+            transactionHash: txHash,
+            status: 'pending',
+            message: 'Transaction submitted successfully. The token approval is now pending on the blockchain.'
+        };
     } catch (error: any) {
         console.error('Error approving tokens:', error);
         throw new Error(`Failed to approve tokens: ${error.message}`);

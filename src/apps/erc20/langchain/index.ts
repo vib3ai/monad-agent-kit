@@ -79,7 +79,7 @@ export class ERC20BalanceTool extends Tool {
         } catch (error: any) {
             return JSON.stringify({
                 status: 'error',
-                message: error.message || 'An error occurred while getting the token balance',
+                message: (error.message || 'An error occurred while getting the token balance') + '. DO NOT retry automatically - please report this error to the user.',
                 code: error.code
             });
         }
@@ -151,7 +151,7 @@ export class ERC20TransferTool extends Tool {
         } catch (error: any) {
             return JSON.stringify({
                 status: 'error',
-                message: error.message || 'An error occurred while transferring tokens',
+                message: (error.message || 'An error occurred while transferring tokens') + '. DO NOT retry automatically - please report this error to the user.',
                 code: error.code
             });
         }
@@ -223,7 +223,7 @@ export class ERC20ApproveTool extends Tool {
         } catch (error: any) {
             return JSON.stringify({
                 status: 'error',
-                message: error.message || 'An error occurred while approving tokens',
+                message: (error.message || 'An error occurred while approving tokens') + '. DO NOT retry automatically - please report this error to the user.',
                 code: error.code
             });
         }
@@ -294,7 +294,7 @@ export class ERC20AllowanceTool extends Tool {
         } catch (error: any) {
             return JSON.stringify({
                 status: 'error',
-                message: error.message || 'An error occurred while getting token allowance',
+                message: (error.message || 'An error occurred while getting token allowance') + '. DO NOT retry automatically - please report this error to the user.',
                 code: error.code
             });
         }
@@ -345,7 +345,7 @@ export class ERC20InfoTool extends Tool {
         } catch (error: any) {
             return JSON.stringify({
                 status: 'error',
-                message: error.message || 'An error occurred while getting token info',
+                message: (error.message || 'An error occurred while getting token info') + '. DO NOT retry automatically - please report this error to the user.',
                 code: error.code
             });
         }

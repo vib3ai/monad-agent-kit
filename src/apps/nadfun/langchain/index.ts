@@ -66,14 +66,14 @@ export class NadfunCreateCurveWithMetadataTool extends Tool {
             } catch (fileError: any) {
                 return JSON.stringify({
                     status: 'error',
-                    message: `Error reading image file: ${fileError.message}. Please provide a valid file path.`,
+                    message: `Error reading image file: ${fileError.message}. Please provide a valid file path. DO NOT retry automatically.`,
                     code: fileError.code
                 });
             }
         } catch (error: any) {
             return JSON.stringify({
                 status: 'error',
-                message: error.message || 'An error occurred while creating the curve with metadata',
+                message: (error.message || 'An error occurred while creating the curve with metadata') + '. DO NOT retry automatically - please report this error to the user.',
                 code: error.code
             });
         }

@@ -97,18 +97,11 @@ export async function createCurveWithMetadata(
         // Send the transaction
         const txHash = await agent.walletClient.writeContract(request);
 
-        // Wait for the transaction to be mined
-        const receipt = await agent.publicClient.waitForTransactionReceipt({
-            hash: txHash
-        });
-
-        // Parse the logs to get the created curve and token addresses
-        // This is a simplified example - in a real implementation, you would need to parse the event logs
-        // to extract the curve address, token address, and other details
-
+        // Return immediately without waiting for the transaction to be mined
         return {
             status: 'success',
-            txHash: txHash,
+            txHash,
+            message: 'Transaction submitted successfully. The curve creation is now pending on the blockchain.'
         };
     } catch (error: any) {
         console.error('Error creating curve with metadata:', error);
