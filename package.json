@@ -11,7 +11,10 @@
     "test": "tsx test/index.ts",
     "test:native": "tsx test/index.ts native",
     "test:nadfun": "tsx test/index.ts nadfun",
+    "test:kuru": "tsx test/index.ts kuru",
     "example:nadfun-create": "tsx examples/nadfun/create.ts",
+    "example:kuru-price": "tsx examples/kuru/price.ts",
+    "example:kuru-swap": "tsx examples/kuru/swap.ts",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -21,6 +24,7 @@
     "monad-chat": "dist/bin/chat.js"
   },
   "dependencies": {
+    "@kuru-labs/kuru-sdk": "^0.0.39",
     "@langchain/anthropic": "^0.3.15",
     "@langchain/core": "^0.3.27",
     "@langchain/langgraph": "^0.2.52",

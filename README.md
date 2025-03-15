@@ -121,7 +121,9 @@ console.log(result.output);
 Currently, the following DApps are supported:
 
 - **Native**: Basic ETH operations (balance checking, transfers)
+- **ERC20**: ERC20 operations
 - **NadFun**: Create tokens with bonding curves and metadata
+- **Kuru Exchange**: Quote price, swap tokens
 
 Coming soon:
 - Uniswap

@@ -1,6 +1,7 @@
 import { testNativeApp } from './apps/native';
 import { testNadfunApp } from './apps/nadfun';
 import { testERC20App } from './apps/erc20';
+import { testKuruApp } from './apps/kuru';
 import 'dotenv/config';
 
 /**
@@ -18,6 +19,8 @@ async function runTests() {
         await testNadfunApp();
         console.log('\n');
         await testERC20App();
+        console.log('\n');
+        await testKuruApp();
         console.log('\nAll tests completed!');
         return;
     }
@@ -34,9 +37,12 @@ async function runTests() {
             case 'erc20':
                 await testERC20App();
                 break;
+            case 'kuru':
+                await testKuruApp();
+                break;
             default:
                 console.error(`Unknown app: ${app}`);
-                console.log('Available apps: native, nadfun, erc20');
+                console.log('Available apps: native, nadfun, erc20, kuru');
                 process.exit(1);
         }
     }

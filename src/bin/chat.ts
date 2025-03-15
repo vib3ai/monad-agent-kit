@@ -8,7 +8,6 @@ import * as fs from "fs";
 import * as readline from "readline";
 dotenv.config();
 
-
 function validateEnvironment(): void {
     const missingVars: string[] = [];
     const requiredVars = [
@@ -94,41 +93,8 @@ async function initializeAgent() {
     }
 }
 
-async function runAutonomousMode(agent: any, config: any, interval = 10) {
-    console.log("Starting autonomous mode...");
-
-    while (true) {
-        try {
-            const thought =
-                "Be creative and do something interesting on the blockchain. " +
-                "Choose an action or set of actions and execute it that highlights your abilities.";
-
-            const stream = await agent.stream(
-                { messages: [new HumanMessage(thought)] },
-                config,
-            );
-
-            for await (const chunk of stream) {
-                if ("agent" in chunk) {
-                    console.log(chunk.agent.messages[0].content);
-                } else if ("tools" in chunk) {
-                    console.log(chunk.tools.messages[0].content);
-                }
-                console.log("-------------------");
-            }
-
-            await new Promise((resolve) => setTimeout(resolve, interval * 1000));
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error("Error:", error.message);
-            }
-            process.exit(1);
-        }
-    }
-}
-
-async function runChatMode(agent: any, config: any) {
-    console.log("Starting chat mode... Type 'exit' to end.");
+async function runSimpleChatMode(agent: any, config: any) {
+    console.log("Starting simple chat mode... Type 'exit' to end.");
 
     const rl = readline.createInterface({
         input: process.stdin,
@@ -146,19 +112,31 @@ async function runChatMode(agent: any, config: any) {
                 break;
             }
 
+            console.log("Processing...");
+
+            // Collect all chunks to find the final response
+            const chunks = [];
             const stream = await agent.stream(
                 { messages: [new HumanMessage(userInput)] },
                 config,
             );
 
             for await (const chunk of stream) {
-                if ("agent" in chunk) {
-                    console.log(chunk.agent.messages[0].content);
-                } else if ("tools" in chunk) {
-                    console.log(chunk.tools.messages[0].content);
-                }
-                console.log("-------------------");
+                chunks.push(chunk);
             }
+
+            // The last chunk with 'agent' property contains the final response
+            let finalResponse = "";
+            for (let i = chunks.length - 1; i >= 0; i--) {
+                if ("agent" in chunks[i]) {
+                    finalResponse = chunks[i].agent.messages[0].content;
+                    break;
+                }
+            }
+
+            // Print only the final response
+            console.log("\nResponse:");
+            console.log(finalResponse);
         }
     } catch (error) {
         if (error instanceof Error) {
@@ -170,46 +148,11 @@ async function runChatMode(agent: any, config: any) {
     }
 }
 
-async function chooseMode(): Promise<"chat" | "auto"> {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-    });
-
-    const question = (prompt: string): Promise<string> =>
-        new Promise((resolve) => rl.question(prompt, resolve));
-
-    while (true) {
-        console.log("\nAvailable modes:");
-        console.log("1. chat    - Interactive chat mode");
-        console.log("2. auto    - Autonomous action mode");
-
-        const choice = (await question("\nChoose a mode (enter number or name): "))
-            .toLowerCase()
-            .trim();
-
-        rl.close();
-
-        if (choice === "1" || choice === "chat") {
-            return "chat";
-        } else if (choice === "2" || choice === "auto") {
-            return "auto";
-        }
-        console.log("Invalid choice. Please try again.");
-    }
-}
-
 async function main() {
     try {
-        console.log("Starting Agent...");
+        console.log("Starting Simple Agent...");
         const { agent, config } = await initializeAgent();
-        const mode = await chooseMode();
-
-        if (mode === "chat") {
-            await runChatMode(agent, config);
-        } else {
-            await runAutonomousMode(agent, config);
-        }
+        await runSimpleChatMode(agent, config);
     } catch (error) {
         if (error instanceof Error) {
             console.error("Error:", error.message);
@@ -223,4 +166,4 @@ if (require.main === module) {
         console.error("Fatal error:", error);
         process.exit(1);
     });
-}
+} 
