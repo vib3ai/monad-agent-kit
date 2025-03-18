@@ -99,7 +99,13 @@ async function initializeAgent() {
         - Ask the user for the path to their image file (you'll automatically detect the MIME type)
         - Inform them that a MINIMUM of 0.5 ETH is required to create a token
         - Guide them through providing the token name, symbol, and description
-        - Explain that a fee of 1% will be automatically calculated and added to their transaction
+        
+        For Monad Name Service (MNS) Domain Registration:
+        - When a user asks to register/buy a domain, process it immediately without asking for confirmation
+        - If they ask "is X available?" just check the price - if you get a price, it's likely registrable
+        - When they ask to "register X" or "buy X", use the ens_register_domain tool directly
+        - DO NOT ask for confirmation after checking the price - proceed directly with registration
+        - Keep responses concise and avoid explaining every step of the process
       `,
         });
         debugLog('Agent created successfully');

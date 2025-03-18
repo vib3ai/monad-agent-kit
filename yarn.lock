@@ -881,6 +881,11 @@
   dependencies:
     js-tiktoken "^1.0.12"
 
+"@nadnameservice/nns-viem-sdk@1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@nadnameservice/nns-viem-sdk/-/nns-viem-sdk-1.0.5.tgz#30a8285398acbbd8847b45546eb16d5456133d2c"
+  integrity sha512-SPR2S6VT8KG+zL49UjdrZuTO6nUvUVxKidgstcJf0cm45Twq4BmD+L4mYal0WJTf7zwtOI7m/MUH9EJtrQ96HA==
+
 "@noble/curves@1.8.1", "@noble/curves@^1.6.0", "@noble/curves@~1.8.1":
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.8.1.tgz#19bc3970e205c99e4bdb1c64a4785706bce497ff"

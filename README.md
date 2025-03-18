@@ -125,6 +125,7 @@ Currently, the following DApps are supported:
 - **NadFun**: Create tokens with bonding curves and metadata
 - **Kuru Exchange**: Quote price, swap tokens
 - **SHMonad (FastLane)**: Stake, unstake MON
+- **Nad Name Service**: Name registration, address mapping, and managing name attributes
 
 Coming soon:
 - Uniswap
