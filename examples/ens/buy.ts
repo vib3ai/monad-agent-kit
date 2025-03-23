@@ -63,7 +63,7 @@ async function main() {
         console.log('Registrant Address:', result.registrantAddress);
 
         console.log('\nYou can view the transaction on the Monad Explorer:');
-        console.log(`https://explorer.monad.xyz/tx/${result.transactionHash}`);
+        console.log(`https://testnet.monadexplorer.com/tx/${result.transactionHash}`);
 
         console.log('\nAfter the transaction is confirmed, you can manage your domain at:');
         console.log(`https://app.nad.domains/`);

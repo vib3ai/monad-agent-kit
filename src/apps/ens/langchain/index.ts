@@ -176,7 +176,7 @@ export function createENSTools(agent: MonadAgentKit) {
                 // Register the domain
                 const result = await ENS_ACTIONS.registerDomain(agent, name, tld, duration);
 
-                return `Domain registration for ${name}.${tld} has been submitted to the blockchain!\n\nTransaction Hash: ${result.transactionHash}\nStatus: ${result.status}\nPrice: ${priceInEth} MON\nDuration: ${duration} days\n\nYou can view the transaction on the Monad Explorer: https://explorer.monad.xyz/tx/${result.transactionHash}\n\nAfter the transaction is confirmed, you can manage your domain at https://app.nad.domains/`;
+                return `Domain registration for ${name}.${tld} has been submitted to the blockchain!\n\nTransaction Hash: ${result.transactionHash}\nStatus: ${result.status}\nPrice: ${priceInEth} MON\nDuration: ${duration} days\n\nYou can view the transaction on the Monad Explorer: https://testnet.monadexplorer.com/tx/${result.transactionHash}\n\nAfter the transaction is confirmed, you can manage your domain at https://app.nad.domains/`;
             } catch (error: any) {
                 return `Error registering domain: ${error.message}. DO NOT retry automatically - please report this error to the user.`;
             }

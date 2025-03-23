@@ -21,6 +21,8 @@
     "example:ens-resolve": "tsx examples/ens/resolve.ts",
     "example:ens-buy": "tsx examples/ens/buy.ts",
     "example:ens-price": "tsx examples/ens/price.ts",
+    "example:apriori-deposit": "tsx examples/apriori/deposit.ts",
+    "example:magma-deposit": "tsx examples/magma/deposit.ts",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
