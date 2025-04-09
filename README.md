@@ -126,6 +126,8 @@ Currently, the following DApps are supported:
 - **Kuru Exchange**: Quote price, swap tokens
 - **SHMonad (FastLane)**: Stake, unstake MON
 - **Nad Name Service**: Name registration, address mapping, and managing name attributes
+- **Apriori**: Staking features
+- **Magma**: Staking features
 
 Coming soon:
 - Uniswap
