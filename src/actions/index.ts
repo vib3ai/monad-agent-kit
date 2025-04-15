@@ -3,6 +3,8 @@ import { NADFUN_ACTIONS } from '../apps/nadfun/actions';
 import { KURU_ACTIONS } from '../apps/kuru/actions';
 import { SHMONAD_ACTIONS } from '../apps/shmonad/actions';
 import { ENS_ACTIONS } from '../apps/ens/actions';
+import { APRIORI_ACTIONS } from '../apps/apriori/actions';
+import { MAGMA_ACTIONS } from '../apps/magma/actions';
 
 // Combine all dapp actions
 export const ACTIONS = {
@@ -11,6 +13,8 @@ export const ACTIONS = {
     ...KURU_ACTIONS,
     ...SHMONAD_ACTIONS,
     ...ENS_ACTIONS,
+    ...APRIORI_ACTIONS,
+    ...MAGMA_ACTIONS,
     // Add more dapp actions here as they are implemented
     // ...UNISWAP_ACTIONS,
     // ...OPENSEA_ACTIONS,
