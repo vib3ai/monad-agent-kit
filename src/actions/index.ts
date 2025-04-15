@@ -5,6 +5,7 @@ import { SHMONAD_ACTIONS } from '../apps/shmonad/actions';
 import { ENS_ACTIONS } from '../apps/ens/actions';
 import { APRIORI_ACTIONS } from '../apps/apriori/actions';
 import { MAGMA_ACTIONS } from '../apps/magma/actions';
+import { ERC20_ACTIONS } from '../apps/erc20/actions';
 
 // Combine all dapp actions
 export const ACTIONS = {
@@ -15,6 +16,7 @@ export const ACTIONS = {
     ...ENS_ACTIONS,
     ...APRIORI_ACTIONS,
     ...MAGMA_ACTIONS,
+    ...ERC20_ACTIONS,
     // Add more dapp actions here as they are implemented
     // ...UNISWAP_ACTIONS,
     // ...OPENSEA_ACTIONS,
