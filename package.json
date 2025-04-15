@@ -1,5 +1,5 @@
 {
-  "name": "monad-agent-kit",
+  "name": "@vib3ai/monad-agent-kit",
   "version": "0.1.5",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
