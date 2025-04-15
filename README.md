@@ -12,14 +12,14 @@ An open-source toolkit for connecting AI agents to Monad and other EVM protocols
 ## Installation
 
 ```bash
-yarn add monad-agent-kit
+yarn add @vib3ai/monad-agent-kit
 ```
 
 ## Quick Start
 
 ```typescript
-import { MonadAgentKit, createAllTools } from 'monad-agent-kit';
-import { get_balance, transfer } from 'monad-agent-kit/apps/native/tools';
+import { MonadAgentKit, createAllTools } from '@vib3ai/monad-agent-kit';
+import { get_balance, transfer } from '@vib3ai/monad-agent-kit/apps/native/tools';
 
 // Initialize with private key
 const privateKey = '0x' + 'your-private-key';
@@ -69,7 +69,7 @@ To use the chat interface:
 The Monad Agent Kit provides ready-to-use LangChain tools for AI agents:
 
 ```typescript
-import { MonadAgentKit, createAllTools } from 'monad-agent-kit';
+import { MonadAgentKit, createAllTools } from '@vib3ai/monad-agent-kit';
 import { ChatOpenAI } from "@langchain/openai";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { AgentExecutor, createOpenAIFunctionsAgent } from "langchain/agents";
