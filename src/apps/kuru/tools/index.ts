@@ -103,10 +103,30 @@ export async function getPrice(
             pools
         );
 
+        // Use a more flexible typing approach to handle dynamic properties
+        const pathWithPossibleQuoteAmount = bestPath as any;
+
+        // Ensure output is a number
+        const output = typeof bestPath.output === 'number'
+            ? bestPath.output
+            : parseFloat(String(bestPath.output) || '0');
+
+        // Ensure priceImpact is a number
+        const priceImpact = typeof bestPath.priceImpact === 'number'
+            ? bestPath.priceImpact
+            : parseFloat(String(bestPath.priceImpact) || '0');
+
+        // Ensure quoteAmount is a number if it exists
+        if (pathWithPossibleQuoteAmount.quoteAmount !== undefined) {
+            pathWithPossibleQuoteAmount.quoteAmount = typeof pathWithPossibleQuoteAmount.quoteAmount === 'number'
+                ? pathWithPossibleQuoteAmount.quoteAmount
+                : parseFloat(String(pathWithPossibleQuoteAmount.quoteAmount) || '0');
+        }
+
         return {
-            bestPath,
-            output: bestPath.output,
-            priceImpact: bestPath.priceImpact,
+            bestPath: pathWithPossibleQuoteAmount,
+            output,
+            priceImpact,
             route: bestPath.route
         };
     } catch (error) {
@@ -156,11 +176,21 @@ export async function swap(
             pools
         );
 
+        // Use a more flexible typing approach to handle dynamic properties
+        const pathWithPossibleQuoteAmount = bestPath as any;
+
+        // Ensure quoteAmount is a number if it exists
+        if (pathWithPossibleQuoteAmount.quoteAmount !== undefined) {
+            pathWithPossibleQuoteAmount.quoteAmount = typeof pathWithPossibleQuoteAmount.quoteAmount === 'number'
+                ? pathWithPossibleQuoteAmount.quoteAmount
+                : parseFloat(String(pathWithPossibleQuoteAmount.quoteAmount) || '0');
+        }
+
         // Execute the swap
         const receipt = await TokenSwap.swap(
             signer as any, // Cast to any to bypass type checking
             KURU_CONFIG.SWAP_ADDRESS,
-            bestPath,
+            pathWithPossibleQuoteAmount,
             amountToSwap,
             inTokenDecimals,
             outTokenDecimals,
