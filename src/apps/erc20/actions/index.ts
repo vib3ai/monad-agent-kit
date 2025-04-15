@@ -1,6 +1,21 @@
 import { MonadAgentKit } from '../../../agent';
 import { erc20Tools } from '../tools';
 import { findTokenAddress, getTokenName } from '../utils/token-finder';
+import { getAddress } from 'viem';
+
+/**
+ * Ensure an address is properly checksummed
+ * @param address The Ethereum address to checksum
+ * @returns Checksummed address or original value if invalid
+ */
+function checksumAddress(address: string): string {
+    try {
+        return getAddress(address);
+    } catch (e) {
+        // Return original address if it's invalid (function will likely fail later)
+        return address;
+    }
+}
 
 /**
  * Get the balance of an ERC20 token for a specific address
@@ -36,15 +51,19 @@ export async function getTokenBalance(
             };
         }
 
-        const balance = await erc20Tools.getTokenBalance(agent, resolvedTokenAddress, ownerAddress);
-        const tokenName = getTokenName(resolvedTokenAddress);
+        // Ensure addresses are checksummed
+        const checksummedTokenAddress = checksumAddress(resolvedTokenAddress);
+        const checksummedOwnerAddress = ownerAddress ? checksumAddress(ownerAddress) : undefined;
+
+        const balance = await erc20Tools.getTokenBalance(agent, checksummedTokenAddress, checksummedOwnerAddress);
+        const tokenName = getTokenName(checksummedTokenAddress);
 
         return {
             status: 'success',
             balance,
-            tokenAddress: resolvedTokenAddress,
+            tokenAddress: checksummedTokenAddress,
             tokenName,
-            ownerAddress: ownerAddress || agent.getWalletAddress()
+            ownerAddress: checksummedOwnerAddress || agent.getWalletAddress()
         };
     } catch (error: any) {
         return {
@@ -70,12 +89,16 @@ export async function transferToken(
     amount: string
 ) {
     try {
-        const txHash = await erc20Tools.transferToken(agent, tokenAddress, to, amount);
+        // Ensure addresses are checksummed
+        const checksummedTokenAddress = checksumAddress(tokenAddress);
+        const checksummedTo = checksumAddress(to);
+
+        const txHash = await erc20Tools.transferToken(agent, checksummedTokenAddress, checksummedTo, amount);
         return {
             status: 'success',
             txHash,
-            tokenAddress,
-            to,
+            tokenAddress: checksummedTokenAddress,
+            to: checksummedTo,
             amount
         };
     } catch (error: any) {
@@ -102,12 +125,16 @@ export async function approveToken(
     amount: string
 ) {
     try {
-        const txHash = await erc20Tools.approveToken(agent, tokenAddress, spender, amount);
+        // Ensure addresses are checksummed
+        const checksummedTokenAddress = checksumAddress(tokenAddress);
+        const checksummedSpender = checksumAddress(spender);
+
+        const txHash = await erc20Tools.approveToken(agent, checksummedTokenAddress, checksummedSpender, amount);
         return {
             status: 'success',
             txHash,
-            tokenAddress,
-            spender,
+            tokenAddress: checksummedTokenAddress,
+            spender: checksummedSpender,
             amount
         };
     } catch (error: any) {
@@ -134,13 +161,24 @@ export async function getTokenAllowance(
     spenderAddress: string
 ) {
     try {
-        const allowance = await erc20Tools.getTokenAllowance(agent, tokenAddress, ownerAddress, spenderAddress);
+        // Ensure addresses are checksummed
+        const checksummedTokenAddress = checksumAddress(tokenAddress);
+        const checksummedOwnerAddress = checksumAddress(ownerAddress);
+        const checksummedSpenderAddress = checksumAddress(spenderAddress);
+
+        const allowance = await erc20Tools.getTokenAllowance(
+            agent,
+            checksummedTokenAddress,
+            checksummedOwnerAddress,
+            checksummedSpenderAddress
+        );
+
         return {
             status: 'success',
             allowance,
-            tokenAddress,
-            ownerAddress,
-            spenderAddress
+            tokenAddress: checksummedTokenAddress,
+            ownerAddress: checksummedOwnerAddress,
+            spenderAddress: checksummedSpenderAddress
         };
     } catch (error: any) {
         return {
@@ -162,11 +200,14 @@ export async function getTokenInfo(
     tokenAddress: string
 ) {
     try {
-        const info = await erc20Tools.getTokenInfo(agent, tokenAddress);
+        // Ensure address is checksummed
+        const checksummedTokenAddress = checksumAddress(tokenAddress);
+
+        const info = await erc20Tools.getTokenInfo(agent, checksummedTokenAddress);
         return {
             status: 'success',
             info,
-            tokenAddress
+            tokenAddress: checksummedTokenAddress
         };
     } catch (error: any) {
         return {
