@@ -3,8 +3,8 @@
   "version": "0.1.5",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "https://github.com/0xwckd/monad-agent-kit",
-  "author": "0xwckd <dn.minhx@gmail.com>",
+  "repository": "https://github.com/vib3ai/monad-agent-kit",
+  "author": "vib3ai <vib3ai@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
