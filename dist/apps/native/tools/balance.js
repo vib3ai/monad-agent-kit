@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.get_balance = get_balance;
+exports.getBalance = getBalance;
 const viem_1 = require("viem");
 /**
  * Get the balance of a wallet
@@ -8,7 +8,7 @@ const viem_1 = require("viem");
  * @param address - The address to check (optional)
  * @returns The balance response with status and balance in ETH
  */
-async function get_balance(agent, address) {
+async function getBalance(agent, address) {
     try {
         const targetAddress = (address || agent.getWalletAddress());
         const rawBalance = await agent.publicClient.getBalance({

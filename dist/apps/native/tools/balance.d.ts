@@ -6,4 +6,4 @@ import { BalanceResponse } from '../../../types';
  * @param address - The address to check (optional)
  * @returns The balance response with status and balance in ETH
  */
-export declare function get_balance(agent: MonadAgentKit, address?: string): Promise<BalanceResponse>;
+export declare function getBalance(agent: MonadAgentKit, address?: string): Promise<BalanceResponse>;

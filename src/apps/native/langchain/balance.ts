@@ -1,6 +1,6 @@
 import { Tool } from 'langchain/tools';
 import { MonadAgentKit } from '../../../agent';
-import { get_balance } from '../tools';
+import { getBalance } from '../tools';
 
 export class NativeBalanceTool extends Tool {
     name = 'native_balance';
@@ -17,7 +17,7 @@ export class NativeBalanceTool extends Tool {
     protected async _call(input: string): Promise<string> {
         try {
             const params = input ? JSON.parse(input) : {};
-            const result = await get_balance(this.monadKit, params.address);
+            const result = await getBalance(this.monadKit, params.address);
 
             return JSON.stringify(result);
         } catch (error: any) {

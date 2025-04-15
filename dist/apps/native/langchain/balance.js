@@ -17,7 +17,7 @@ class NativeBalanceTool extends tools_1.Tool {
     async _call(input) {
         try {
             const params = input ? JSON.parse(input) : {};
-            const result = await (0, tools_2.get_balance)(this.monadKit, params.address);
+            const result = await (0, tools_2.getBalance)(this.monadKit, params.address);
             return JSON.stringify(result);
         }
         catch (error) {

@@ -17,6 +17,6 @@ export declare const ACTIONS: {
     readonly swapForMON: typeof import("../apps/kuru/actions").swapForMON;
     readonly swapMONFor: typeof import("../apps/kuru/actions").swapMONFor;
     readonly createCurveWithMetadata: import("../types/action").Action;
-    readonly BALANCE: import("../types/action").Action;
-    readonly TRANSFER: import("../types/action").Action;
+    readonly getBalance: typeof import("../apps/native/actions").getBalance;
+    readonly transferETH: typeof import("../apps/native/actions").transferETH;
 };
