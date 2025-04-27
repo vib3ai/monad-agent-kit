@@ -10,6 +10,8 @@ export * from './types';
 
 // Export action system
 export { ACTIONS } from './actions';
+export { nadfunTools } from './apps/nadfun/tools';
+
 export * from './utils/actionExecutor';
 
 // For backward compatibility
